@@ -14,14 +14,31 @@ On Windows with MSYS2, add `-G "MinGW Makefiles"` to the first command.
 
 ## Tools
 
-This project uses one repository skill and three Claude Code plugins.
+This project uses four repository skills and three Claude Code plugins.
+
+Every repository skill lives in `.claude/skills/`. Git tracks them, so they need
+no install. Clone the repository, and the skills work.
+
+### grill-with-docs
+
+`/grill-with-docs` runs a relentless interview that sharpens a plan or a design.
+It writes an architecture decision record and a glossary as the interview runs.
+Use it before you build a feature, not after.
+
+The skill is a wrapper. It calls two other skills, and this repository carries
+all three:
+
+- `grill-with-docs` starts the session.
+- `grilling` asks the questions.
+- `domain-modeling` writes the decision record and the glossary.
+
+Run `/grill-with-docs`. A copy under `~/.claude/skills/` is not needed.
 
 ### writing-process-skills
 
-`writing-process-skills` lives in `.claude/skills/`, so it needs no install. Git
-tracks it, and it works after a clone. Use it to write a new process skill, or to
-revise one. The skill recovers what a past commit did, then writes the rule from
-that evidence.
+Use `writing-process-skills` to write a new process skill, or to revise one.
+The skill recovers what a past commit did, then writes the rule from that
+evidence.
 
 ## Plugins
 
