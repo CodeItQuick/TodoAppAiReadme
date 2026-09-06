@@ -82,6 +82,11 @@ Examples:
 - `^F Add the CSV export button`
 - `!B Correct the off-by-one error in the pager`
 
+## Prompt log
+
+Every commit gets a row in `log.md`. The row holds the commit title and the
+prompt that produced it. Add the row in the same commit.
+
 ## Skills in this repository
 
 `.claude/skills/` holds four skills. Git tracks them, so they need no install.
