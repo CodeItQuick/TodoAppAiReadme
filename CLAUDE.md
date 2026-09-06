@@ -28,8 +28,10 @@ story in `jira.md`, and builds a `gh issue create` command. With no flag it
 prints the command. With `--push` it runs the command and writes the new issue
 number into the todo line.
 
-`tests/CMakeLists.txt` holds no test source. It declares two CTest cases that
-run the `todo` binary against the files in `tests/fixtures/`, and it matches
+`tests/CMakeLists.txt` only adds the `acceptance/` subdirectory.
+`tests/acceptance/CMakeLists.txt` holds no test source. It declares two CTest
+cases that run the `todo` binary against the files in
+`tests/acceptance/fixtures/`, and it matches
 the standard output against a regular expression. The tests use fixtures, not
 the real `TODO.md`, so a push does not break them. They reach no network,
 because the default mode only prints. Add GoogleTest or Catch2 only when a test

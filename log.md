@@ -26,3 +26,4 @@ One row per commit. The prompt is the request that produced it.
 | .d Add log.md, a table of commit titles and prompts | I want a log written now as I write prompts. Put this log in log.md and have it as a markdown table with commit title, and prompt, nothing more is needed right? |
 | .d Design TODO-1 and add the glossary | look at the first todo, and let's plan out in the jira.md the first story (/grill-with-docs) |
 | ^F Push the first todo to the GitHub issue tracker | /goal complete the first todo using jira.md |
+| .r Move the tests into tests/acceptance | ok can we move these tests into the tests/ as an acceptance folder? |
