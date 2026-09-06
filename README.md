@@ -47,6 +47,13 @@ memsearch stores and recalls memory from past sessions.
 
 Repository: https://github.com/zilliztech/memsearch
 
+memsearch needs no further setup. It ships SessionStart, UserPromptSubmit,
+Stop, and SessionEnd hooks, so it captures and recalls memory on its own.
+Restart Claude Code after the install to activate the hooks.
+
+The plugin writes to a `.memsearch/` directory in the repository root. This
+repository ignores that directory, because the memory belongs to one machine.
+
 ### ponytail
 
 ponytail keeps the code minimal. It rejects speculative abstractions, and it
