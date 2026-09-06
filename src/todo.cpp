@@ -1,10 +1,11 @@
 // Pushes the first unchecked todo in TODO.md to the GitHub issue tracker.
 // Usage: todo <TODO.md> <jira.md> [--push]
 
+#include "todo_core.h"
+
 #include <cstdio>
 #include <fstream>
 #include <iostream>
-#include <sstream>
 #include <string>
 #include <vector>
 
@@ -14,13 +15,6 @@
 #endif
 
 namespace {
-
-std::string trim(const std::string &s) {
-    const std::string spaces = " \t\r\n";
-    const auto first = s.find_first_not_of(spaces);
-    if (first == std::string::npos) return "";
-    return s.substr(first, s.find_last_not_of(spaces) - first + 1);
-}
 
 std::vector<std::string> readLines(const std::string &path) {
     std::ifstream in(path);
@@ -38,42 +32,6 @@ std::vector<std::string> readLines(const std::string &path) {
     return lines;
 }
 
-// The todo text is the identity of a todo. An unchecked todo starts with "[]".
-std::string todoText(const std::string &line) {
-    const std::string t = trim(line);
-    if (t.rfind("[]", 0) != 0) return "";
-    return trim(t.substr(2));
-}
-
-// Pairing: the story heading text, after the story ID, equals the todo text.
-std::string headingText(const std::string &line) {
-    if (line.rfind("## ", 0) != 0) return "";
-    const std::string rest = trim(line.substr(3));
-    const auto space = rest.find(' ');
-    if (space == std::string::npos) return "";
-    return trim(rest.substr(space + 1));
-}
-
-std::string storyBody(const std::vector<std::string> &lines, size_t heading) {
-    std::string body;
-    for (size_t i = heading + 1; i < lines.size(); ++i) {
-        if (lines[i].rfind("## ", 0) == 0) break;
-        body += lines[i];
-        body += "\n";
-    }
-    return trim(body);
-}
-
-std::string quote(const std::string &s) {
-    std::string out = "\"";
-    for (const char c : s) {
-        if (c == '"' || c == '\\') out += '\\';
-        out += c;
-    }
-    out += '"';
-    return out;
-}
-
 std::string runAndCapture(const std::string &command) {
     FILE *pipe = popen(command.c_str(), "r");
     if (!pipe) {
@@ -88,13 +46,6 @@ std::string runAndCapture(const std::string &command) {
         exit(1);
     }
     return out;
-}
-
-std::string issueNumber(const std::string &ghOutput) {
-    const std::string url = trim(ghOutput);
-    const auto slash = url.find_last_of('/');
-    if (slash == std::string::npos) return "";
-    return trim(url.substr(slash + 1));
 }
 
 void writeLines(const std::string &path, const std::vector<std::string> &lines) {

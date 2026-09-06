@@ -27,3 +27,4 @@ One row per commit. The prompt is the request that produced it.
 | .d Design TODO-1 and add the glossary | look at the first todo, and let's plan out in the jira.md the first story (/grill-with-docs) |
 | ^F Push the first todo to the GitHub issue tracker | /goal complete the first todo using jira.md |
 | .r Move the tests into tests/acceptance | ok can we move these tests into the tests/ as an acceptance folder? |
+| .t Add unit tests for the rules in todo_core | Write some unit tests around src/todo.cpp and put them in the tests unit folder |

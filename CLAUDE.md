@@ -20,7 +20,10 @@ ctest --test-dir build -R todo_prints_gh_command --output-on-failure
 
 ## Structure
 
-The build declares one executable target, `todo`, from `src/`. The root
+The build declares a library target, `todo_core`, and one executable, `todo`.
+`src/todo_core.cpp` holds the pure rules: trim, pairing, the story body, shell
+quoting, and the issue number. `src/todo.cpp` holds the file access, the call
+to `gh`, and `main`. The split exists so that a unit test can reach the rules. The root
 `CMakeLists.txt` calls `enable_testing()` and adds the `tests/` subdirectory.
 
 `src/todo.cpp` reads the first unchecked todo in `TODO.md`, pairs it with a
@@ -28,7 +31,11 @@ story in `jira.md`, and builds a `gh issue create` command. With no flag it
 prints the command. With `--push` it runs the command and writes the new issue
 number into the todo line.
 
-`tests/CMakeLists.txt` only adds the `acceptance/` subdirectory.
+`tests/CMakeLists.txt` adds the `unit/` and `acceptance/` subdirectories.
+
+`tests/unit/todo_core_tests.cpp` tests `todo_core` with `assert` and no test
+framework. It undefines `NDEBUG`, so a release build keeps the asserts.
+
 `tests/acceptance/CMakeLists.txt` holds no test source. It declares two CTest
 cases that run the `todo` binary against the files in
 `tests/acceptance/fixtures/`, and it matches
