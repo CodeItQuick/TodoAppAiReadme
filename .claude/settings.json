@@ -1,0 +1,13 @@
+{
+  "extraKnownMarketplaces": {
+    "memsearch-plugins": {
+      "source": {
+        "source": "github",
+        "repo": "zilliztech/memsearch"
+      }
+    }
+  },
+  "enabledPlugins": {
+    "memsearch@memsearch-plugins": true
+  }
+}
