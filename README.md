@@ -1,5 +1,16 @@
 # TodoAppAiReadme
 
+## Introduction
+
+Hello. Human here. The rest of this codebase was written using AI. Mostly vibe coded, I did a bit of SDD (specification-driven-development).
+I've included some AI skills I use as well, just the core ones. I tried to only include non-experimental techniques I use.
+
+I cannot write any C++ and haven't really written any in the past, beyond one brief time on quick-lint. So I have no idea
+if this code is any good. I would probably refactor it a lot, especially if I could write/read C++. There are e2e tests
+and unit tests included.
+
+## Start of AI Coded README.md
+
 A C++ project. The build uses CMake.
 
 ## Build and test
