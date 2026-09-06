@@ -65,17 +65,19 @@ Repository: https://github.com/AminBlg/SimpleEnglish
 Run the skill with `/simple-english:simple-english` to rewrite one document.
 
 To apply the rules to every answer instead, copy them into your global
-`~/.claude/CLAUDE.md`. Paste this prompt into Claude Code:
+`~/.claude/CLAUDE.md`. This prompt needs no plugin, and it runs on any machine:
 
 ```
-Read the simple-english skill at
-~/.claude/plugins/cache/simple-english/simple-english/*/skills/*/SKILL.md.
+Fetch
+https://raw.githubusercontent.com/AminBlg/SimpleEnglish/main/prompts/system-prompt.md
 
-Write its rules into ~/.claude/CLAUDE.md as a section named
-"ASD-STE100 Simplified Technical English". State that the rules govern all
-prose: chat replies, commit messages, documents, and error messages. State
-that the rules do not govern code, code comments that quote code, or
-marketing copy.
+That file holds the ASD-STE100 rules. Write them into ~/.claude/CLAUDE.md as a
+section named "ASD-STE100 Simplified Technical English". Create the file if it
+does not exist.
+
+Add a line above the rules that states the scope: the rules govern all prose,
+which includes chat replies, commit messages, documents, and error messages.
+The rules do not govern code, code comments that quote code, or marketing copy.
 
 If the section exists, replace it. Change nothing else in the file.
 ```
