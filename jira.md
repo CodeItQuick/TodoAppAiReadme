@@ -1,33 +1,60 @@
 # Backlog
 
-## TODO-1 Add my first todo to the github issue tracker
+A story here pairs with a line in `TODO.md`. The heading text after the story ID
+must equal the todo text exactly. The program uses that text to pair them.
+
+## TODO-1 Add my first todo to the github issues tracker
 
 **As a** person with tasks
-**I want** my todo to reach the GitHub issue tracker
+**I want** a program that puts a todo on the GitHub board
 **So that** one board holds the work
+
+### Design
+
+The program is the product. `src/hello.cpp` becomes `src/todo.cpp`, and the
+CMake target `hello` becomes `todo`.
+
+Run it with both file paths:
+
+```
+todo TODO.md jira.md
+```
+
+The program takes the first unchecked line in `TODO.md`. A line is unchecked
+when it starts with `[]`. The program then finds the story in `jira.md` whose
+heading text, after the story ID, equals the todo text. It builds one
+`gh issue create` command from the two: the todo text is the title, and the
+story section is the body.
+
+With no flag, the program prints that command and exits. With `--push`, it runs
+the command, reads the new issue number, and writes the number back into the
+todo line. The line `[] Buy milk` becomes `[#12] Buy milk`.
+
+That number is the whole idempotency mechanism. A line with a number is not
+unchecked, so a second run skips it. The check needs no network.
+
+The story is self-hosting. After the program exists, run it against this file.
+It files this story as the first issue.
 
 ### Acceptance criteria
 
-- The line in `TODO.md` becomes an issue in `CodeItQuick/TodoAppAiReadme`.
-- The issue title starts with the story ID `TODO-1`.
-- The issue carries the `enhancement` label. The repository already defines it.
-- A second run creates no second issue.
+- `todo TODO.md jira.md` prints the `gh issue create` command, and files
+  nothing.
+- The printed title is the todo text. The printed body is the story section.
+- `todo TODO.md jira.md --push` files the issue in
+  `CodeItQuick/TodoAppAiReadme`, and rewrites the line as `[#<number>]`.
+- A second `--push` run finds no unchecked line, and files nothing.
+- The program stops with an error when no story heading matches the todo text.
+  It files nothing in that case.
+- A CTest case runs the default mode and matches the printed command. The test
+  reaches no network.
 
 ### Notes
 
-The story ID gives the idempotency. A create must read the current issues first,
-so a check and an idempotent create are one operation, not two options.
+The old test `hello_prints_greeting` goes away with the greeting.
 
-Read the current issues for the ID:
+The commit letter is `F`. The program behavior changes for the person who runs
+it.
 
-```
-gh issue list --state all --search "TODO-1 in:title" --json number
-```
-
-If the output is `[]`, create the issue. If the output names an issue, stop.
-
-`TODO.md` holds the truth. The push runs one way, from the file to GitHub. Git
-then reviews a backlog change in a pull request.
-
-This story adds no sync script. Two `gh` commands cover one story. Write a
-script at the third story.
+Out of scope: a second todo in one run, a check for a closed issue, an edit
+pushed to an existing issue, and a `.md` parser beyond the two rules above.

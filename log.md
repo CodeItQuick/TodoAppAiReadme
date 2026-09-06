@@ -24,3 +24,4 @@ One row per commit. The prompt is the request that produced it.
 | .d Add jira.md with the first story | for the jira.md file I want you to create, put the title as the Add my first todo to the github issue tracker with the description I had from the plan to create this todo for acceptance criteria etc. |
 | .d Expand CLAUDE.md with the build, the structure, and the backlog rules | /init |
 | .d Add log.md, a table of commit titles and prompts | I want a log written now as I write prompts. Put this log in log.md and have it as a markdown table with commit title, and prompt, nothing more is needed right? |
+| .d Design TODO-1 and add the glossary | look at the first todo, and let's plan out in the jira.md the first story (/grill-with-docs) |
