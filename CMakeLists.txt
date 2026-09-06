@@ -8,3 +8,6 @@ add_executable(hello src/hello.cpp)
 if(MINGW)
     target_link_options(hello PRIVATE -static-libstdc++ -static-libgcc)
 endif()
+
+enable_testing()
+add_subdirectory(tests)
