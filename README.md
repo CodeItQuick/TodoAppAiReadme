@@ -61,3 +61,21 @@ simple-english writes documentation with ASD-STE100 Simplified Technical
 English. Use it for the README, for runbooks, and for error messages.
 
 Repository: https://github.com/AminBlg/SimpleEnglish
+
+Run the skill with `/simple-english:simple-english` to rewrite one document.
+
+To apply the rules to every answer instead, copy them into your global
+`~/.claude/CLAUDE.md`. Paste this prompt into Claude Code:
+
+```
+Read the simple-english skill at
+~/.claude/plugins/cache/simple-english/simple-english/*/skills/*/SKILL.md.
+
+Write its rules into ~/.claude/CLAUDE.md as a section named
+"ASD-STE100 Simplified Technical English". State that the rules govern all
+prose: chat replies, commit messages, documents, and error messages. State
+that the rules do not govern code, code comments that quote code, or
+marketing copy.
+
+If the section exists, replace it. Change nothing else in the file.
+```
