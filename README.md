@@ -55,6 +55,11 @@ prefers the standard library over a new dependency. Set the level with
 
 Repository: https://github.com/DietrichGebert/ponytail
 
+ponytail needs no further setup. It ships a SessionStart hook, so it activates
+at the start of every session. simple-english ships a skill instead, and a
+skill loads only when the task matches it. That difference is the reason why
+the next section adds a prompt for simple-english, and none for ponytail.
+
 ### simple-english
 
 simple-english writes documentation with ASD-STE100 Simplified Technical
