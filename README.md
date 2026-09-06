@@ -14,9 +14,19 @@ On Windows with MSYS2, add `-G "MinGW Makefiles"` to the first command.
 
 ## Tools
 
-This project uses three Claude Code plugins. Each plugin installs for your user
-account, not for this repository. Install a plugin once, and it works in every
-project.
+This project uses one repository skill and three Claude Code plugins.
+
+### writing-process-skills
+
+`writing-process-skills` lives in `.claude/skills/`, so it needs no install. Git
+tracks it, and it works after a clone. Use it to write a new process skill, or to
+revise one. The skill recovers what a past commit did, then writes the rule from
+that evidence.
+
+## Plugins
+
+Each plugin installs for your user account, not for this repository. Install a
+plugin once, and it works in every project.
 
 To install all three, run these commands in Claude Code:
 
