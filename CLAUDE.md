@@ -15,18 +15,25 @@ On Windows with MSYS2, the first command needs `-G "MinGW Makefiles"`.
 To run one test, name it:
 
 ```
-ctest --test-dir build -R hello_prints_greeting --output-on-failure
+ctest --test-dir build -R todo_prints_gh_command --output-on-failure
 ```
 
 ## Structure
 
-The build declares one executable target, `hello`, from `src/`. The root
+The build declares one executable target, `todo`, from `src/`. The root
 `CMakeLists.txt` calls `enable_testing()` and adds the `tests/` subdirectory.
 
-`tests/CMakeLists.txt` holds no test source. It declares a CTest case that runs
-the `hello` binary, and it matches the standard output against a regular
-expression. A test of program output needs no test framework here. Add
-GoogleTest or Catch2 only when a test calls a function instead.
+`src/todo.cpp` reads the first unchecked todo in `TODO.md`, pairs it with a
+story in `jira.md`, and builds a `gh issue create` command. With no flag it
+prints the command. With `--push` it runs the command and writes the new issue
+number into the todo line.
+
+`tests/CMakeLists.txt` holds no test source. It declares two CTest cases that
+run the `todo` binary against the files in `tests/fixtures/`, and it matches
+the standard output against a regular expression. The tests use fixtures, not
+the real `TODO.md`, so a push does not break them. They reach no network,
+because the default mode only prints. Add GoogleTest or Catch2 only when a test
+calls a function instead.
 
 ## The MinGW link workaround
 

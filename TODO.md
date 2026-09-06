@@ -1,3 +1,3 @@
-﻿# My Awesome Project
+# My Awesome Project
 
-[] Add my first todo to the github issues tracker
+[#1] Add my first todo to the github issues tracker

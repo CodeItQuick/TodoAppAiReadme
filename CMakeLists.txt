@@ -1,12 +1,12 @@
 cmake_minimum_required(VERSION 3.20)
-project(hello CXX)
+project(todo CXX)
 
-add_executable(hello src/hello.cpp)
+add_executable(todo src/todo.cpp)
 
 # ponytail: this MSYS2 install cannot link libstdc++.dll (ld exit 116), so link
 # it statically. Remove this block once the toolchain is fixed.
 if(MINGW)
-    target_link_options(hello PRIVATE -static-libstdc++ -static-libgcc)
+    target_link_options(todo PRIVATE -static-libstdc++ -static-libgcc)
 endif()
 
 enable_testing()
