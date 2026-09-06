@@ -1,3 +1,3 @@
 ﻿# My Awesome Project
 
-[] Start the project
+[] Add my first todo to the github issues tracker
