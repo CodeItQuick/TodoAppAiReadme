@@ -14,17 +14,40 @@ On Windows with MSYS2, add `-G "MinGW Makefiles"` to the first command.
 
 ## Tools
 
-This project uses the memsearch plugin for Claude Code. It stores and recalls
-memory from past sessions.
+This project uses three Claude Code plugins. Each plugin installs for your user
+account, not for this repository. Install a plugin once, and it works in every
+project.
 
-Repository: https://github.com/zilliztech/memsearch
-
-To install the plugin, run these commands in Claude Code:
+To install all three, run these commands in Claude Code:
 
 ```
 /plugin marketplace add zilliztech/memsearch
 /plugin install memsearch@memsearch-plugins
+
+/plugin marketplace add DietrichGebert/ponytail
+/plugin install ponytail@ponytail
+
+/plugin marketplace add AminBlg/SimpleEnglish
+/plugin install simple-english@simple-english
 ```
 
-The plugin installs for your user account, not for this repository. Install it
-once, and it works in every project.
+### memsearch
+
+memsearch stores and recalls memory from past sessions.
+
+Repository: https://github.com/zilliztech/memsearch
+
+### ponytail
+
+ponytail keeps the code minimal. It rejects speculative abstractions, and it
+prefers the standard library over a new dependency. Set the level with
+`/ponytail lite|full|ultra`. Turn it off with `stop ponytail`.
+
+Repository: https://github.com/DietrichGebert/ponytail
+
+### simple-english
+
+simple-english writes documentation with ASD-STE100 Simplified Technical
+English. Use it for the README, for runbooks, and for error messages.
+
+Repository: https://github.com/AminBlg/SimpleEnglish
