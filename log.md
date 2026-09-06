@@ -29,3 +29,4 @@ One row per commit. The prompt is the request that produced it.
 | .r Move the tests into tests/acceptance | ok can we move these tests into the tests/ as an acceptance folder? |
 | .t Add unit tests for the rules in todo_core | Write some unit tests around src/todo.cpp and put them in the tests unit folder |
 | .d Add the human introduction to the README | commit this (README introduction written by the user) |
+| .d Document how to create an issue from a todo | add instructions in the readme on what to run on the command line to create the issue |
