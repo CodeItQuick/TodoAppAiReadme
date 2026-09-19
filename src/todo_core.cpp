@@ -1,49 +1,106 @@
-#include "todo_core.h"
+///
+/// @file
+/// @details The pure rules of the todo pusher. No file access, and no process launch.
+///
+///------------------------------------------------------------------------------------------------------------------///
 
-std::string trim(const std::string &s) {
-    const std::string spaces = " \t\r\n";
-    const auto first = s.find_first_not_of(spaces);
-    if (first == std::string::npos) return "";
-    return s.substr(first, s.find_last_not_of(spaces) - first + 1);
+#include "todo_core.hpp"
+
+//--------------------------------------------------------------------------------------------------------------------//
+
+std::string TodoApp::Core::Trim(const std::string& text)
+{
+	const std::string kSpaces = " \t\r\n";
+	const size_t first = text.find_first_not_of(kSpaces);
+	if (std::string::npos == first)
+	{
+		return "";
+	}
+
+	return text.substr(first, text.find_last_not_of(kSpaces) - first + 1);
 }
 
-std::string todoText(const std::string &line) {
-    const std::string t = trim(line);
-    if (t.rfind("[]", 0) != 0) return "";
-    return trim(t.substr(2));
+//--------------------------------------------------------------------------------------------------------------------//
+
+std::string TodoApp::Core::TodoText(const std::string& line)
+{
+	const std::string trimmed = Trim(line);
+	if (0 != trimmed.rfind("[]", 0))
+	{
+		return "";
+	}
+
+	return Trim(trimmed.substr(2));
 }
 
-std::string headingText(const std::string &line) {
-    if (line.rfind("## ", 0) != 0) return "";
-    const std::string rest = trim(line.substr(3));
-    const auto space = rest.find(' ');
-    if (space == std::string::npos) return "";
-    return trim(rest.substr(space + 1));
+//--------------------------------------------------------------------------------------------------------------------//
+
+std::string TodoApp::Core::HeadingText(const std::string& line)
+{
+	if (0 != line.rfind("## ", 0))
+	{
+		return "";
+	}
+
+	const std::string rest = Trim(line.substr(3));
+	const size_t space = rest.find(' ');
+	if (std::string::npos == space)
+	{
+		return "";
+	}
+
+	return Trim(rest.substr(space + 1));
 }
 
-std::string storyBody(const std::vector<std::string> &lines, size_t heading) {
-    std::string body;
-    for (size_t i = heading + 1; i < lines.size(); ++i) {
-        if (lines[i].rfind("## ", 0) == 0) break;
-        body += lines[i];
-        body += "\n";
-    }
-    return trim(body);
+//--------------------------------------------------------------------------------------------------------------------//
+
+std::string TodoApp::Core::StoryBody(const std::vector<std::string>& lines, size_t heading)
+{
+	std::string body;
+	for (size_t index = heading + 1; index < lines.size(); ++index)
+	{
+		if (0 == lines[index].rfind("## ", 0))
+		{
+			break;
+		}
+
+		body += lines[index];
+		body += "\n";
+	}
+
+	return Trim(body);
 }
 
-std::string quote(const std::string &s) {
-    std::string out = "\"";
-    for (const char c : s) {
-        if (c == '"' || c == '\\') out += '\\';
-        out += c;
-    }
-    out += '"';
-    return out;
+//--------------------------------------------------------------------------------------------------------------------//
+
+std::string TodoApp::Core::Quote(const std::string& text)
+{
+	std::string quoted = "\"";
+	for (const char character : text)
+	{
+		if ('"' == character || '\\' == character)
+		{
+			quoted += '\\';
+		}
+		quoted += character;
+	}
+
+	quoted += '"';
+	return quoted;
 }
 
-std::string issueNumber(const std::string &ghOutput) {
-    const std::string url = trim(ghOutput);
-    const auto slash = url.find_last_of('/');
-    if (slash == std::string::npos) return "";
-    return trim(url.substr(slash + 1));
+//--------------------------------------------------------------------------------------------------------------------//
+
+std::string TodoApp::Core::IssueNumber(const std::string& ghOutput)
+{
+	const std::string url = Trim(ghOutput);
+	const size_t slash = url.find_last_of('/');
+	if (std::string::npos == slash)
+	{
+		return "";
+	}
+
+	return Trim(url.substr(slash + 1));
 }
+
+//--------------------------------------------------------------------------------------------------------------------//

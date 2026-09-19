@@ -5,7 +5,7 @@
 ///
 ///------------------------------------------------------------------------------------------------------------------///
 
-#include "todo_core.h"
+#include "todo_core.hpp"
 
 #include <cstdio>
 #include <fstream>
@@ -127,7 +127,7 @@ int TodoApp::Main(int argumentCount, char* argumentValues[])
 	std::string text;
 	for (size_t index = 0; index < todos.size(); ++index)
 	{
-		text = todoText(todos[index]);
+		text = Core::TodoText(todos[index]);
 		if (false == text.empty())
 		{
 			todoLine = index;
@@ -151,7 +151,7 @@ int TodoApp::Main(int argumentCount, char* argumentValues[])
 	size_t heading = stories.size();
 	for (size_t index = 0; index < stories.size(); ++index)
 	{
-		if (text == headingText(stories[index]))
+		if (text == Core::HeadingText(stories[index]))
 		{
 			heading = index;
 			break;
@@ -164,11 +164,11 @@ int TodoApp::Main(int argumentCount, char* argumentValues[])
 		return 1;
 	}
 
-	const std::string body = storyBody(stories, heading);
+	const std::string body = Core::StoryBody(stories, heading);
 
 	if (false == push)
 	{
-		std::cout << "gh issue create --title " << quote(text) << " --body " << quote(body) << "\n";
+		std::cout << "gh issue create --title " << Core::Quote(text) << " --body " << Core::Quote(body) << "\n";
 		return 0;
 	}
 
@@ -176,7 +176,7 @@ int TodoApp::Main(int argumentCount, char* argumentValues[])
 	std::ofstream(kBodyPath) << body << "\n";
 
 	std::string ghOutput;
-	const bool ghSucceeded = Utilities::RunAndCapture("gh issue create --title " + quote(text) + " --body-file " + kBodyPath, ghOutput);
+	const bool ghSucceeded = Utilities::RunAndCapture("gh issue create --title " + Core::Quote(text) + " --body-file " + kBodyPath, ghOutput);
 	std::remove(kBodyPath.c_str());
 	if (false == ghSucceeded)
 	{
@@ -184,7 +184,7 @@ int TodoApp::Main(int argumentCount, char* argumentValues[])
 		return 1;
 	}
 
-	const std::string number = issueNumber(ghOutput);
+	const std::string number = Core::IssueNumber(ghOutput);
 	if (true == number.empty())
 	{
 		std::cerr << "gh printed no issue url\n";
