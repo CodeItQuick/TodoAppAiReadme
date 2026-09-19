@@ -23,6 +23,37 @@ ctest --test-dir build --output-on-failure
 
 On Windows with MSYS2, add `-G "MinGW Makefiles"` to the first command.
 
+## Create an issue from a todo
+
+The program shells out to the GitHub CLI, so log in first:
+
+```
+gh auth login
+```
+
+To see the command without filing anything, run:
+
+```
+./build/todo TODO.md jira.md
+```
+
+To file the issue, add the flag:
+
+```
+./build/todo TODO.md jira.md --push
+```
+
+On Windows, the binary is `build/todo.exe`.
+
+Three rules decide what happens:
+
+- The program takes the first line in `TODO.md` that starts with `[]`.
+- `jira.md` must hold a heading whose text, after the story ID, equals the todo
+  text exactly. The program stops with an error when no heading matches, and it
+  files nothing.
+- After a push, the line reads `[#12] <todo text>`. That number stops a second
+  run from filing a duplicate.
+
 ## Tools
 
 This project uses four repository skills and three Claude Code plugins.

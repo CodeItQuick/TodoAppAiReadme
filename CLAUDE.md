@@ -44,6 +44,28 @@ the real `TODO.md`, so a push does not break them. They reach no network,
 because the default mode only prints. Add GoogleTest or Catch2 only when a test
 calls a function instead.
 
+## Coding standards
+
+`coding_standards.pdf` holds the Tyre Bytes C++ standard. The code follows it.
+The points that matter most:
+
+- The build runs at the highest warning level with warnings as errors.
+- Headers end in `.hpp` and carry a `TodoApp_FileName_hpp` guard.
+- Functions live in a namespace. The source file defines them with the full
+  name, `TodoApp::Core::Trim`, and puts a separator line between them.
+- Functions are PascalCase, variables camelCase, constants `kName`, members
+  `mName`. A loop counter is a full word, such as `lineIndex`.
+- A parameter or local that does not change is `const`. Every variable gets
+  an initial value.
+- Tabs, Allman braces, lines under 120 characters, `(void)` for an empty
+  parameter list, a doxygen `/// @details` comment above each declaration.
+- No `auto`, no C cast, no macro, no `using` in a header.
+
+Three deliberate deviations: the build stays on CMake, not premake5. The
+uppercase file names `README.md`, `TODO.md`, `CMakeLists.txt`, and `CLAUDE.md`
+stay, because CMake and GitHub expect them. The separator lines are 120
+characters wide, the same as the ludumdare56 project.
+
 ## The MinGW link workaround
 
 The root `CMakeLists.txt` carries an `if(MINGW)` block that links libstdc++ and

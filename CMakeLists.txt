@@ -8,6 +8,14 @@ if(MINGW)
     add_link_options(-static-libstdc++ -static-libgcc)
 endif()
 
+# The coding standard: build at the highest warning level, and treat a warning
+# as an error.
+if(MSVC)
+    add_compile_options(/W4 /WX)
+else()
+    add_compile_options(-Wall -Wextra -Wpedantic -Werror)
+endif()
+
 add_library(todo_core src/todo_core.cpp)
 target_include_directories(todo_core PUBLIC src)
 
