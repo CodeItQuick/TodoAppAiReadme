@@ -30,3 +30,4 @@ One row per commit. The prompt is the request that produced it.
 | .t Add unit tests for the rules in todo_core | Write some unit tests around src/todo.cpp and put them in the tests unit folder |
 | .d Add the human introduction to the README | commit this (README introduction written by the user) |
 | .d Document how to create an issue from a todo | add instructions in the readme on what to run on the command line to create the issue |
+| .r Restyle todo.cpp to the ludumdare56 layout | look at @../ludumdare56/ I want the @src/todo.cpp code to look similar Using a /plan I need to migrate the code to look the same |
