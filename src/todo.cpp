@@ -13,10 +13,32 @@
 #include <string>
 #include <vector>
 
+//--------------------------------------------------------------------------------------------------------------------//
+
+namespace
+{
+
+	/// @details Opens a read pipe to a shell command. The C runtime names the call differently on Windows.
+	FILE* OpenPipe(const std::string& command)
+	{
 #ifdef _WIN32
-#define popen _popen
-#define pclose _pclose
+		return _popen(command.c_str(), "r");
+#else
+		return popen(command.c_str(), "r");
 #endif
+	}
+
+	/// @details Closes the pipe and returns the exit status of the command.
+	int ClosePipe(FILE* const pipe)
+	{
+#ifdef _WIN32
+		return _pclose(pipe);
+#else
+		return pclose(pipe);
+#endif
+	}
+
+};	//namespace
 
 //--------------------------------------------------------------------------------------------------------------------//
 
@@ -25,13 +47,21 @@ namespace TodoApp
 	namespace Utilities
 	{
 
+		/// @details Reads a text file into lines. Drops a UTF-8 byte order mark and a carriage return.
+		///   Returns false when the file does not open.
 		bool ReadLines(const std::string& filePath, std::vector<std::string>& lines);
+
+		/// @details Writes the lines to a text file, one per line. Returns false when the file does not open.
 		bool WriteLines(const std::string& filePath, const std::vector<std::string>& lines);
+
+		/// @details Runs a shell command and appends its standard output to output.
+		///   Returns false when the command does not start or exits with a failure.
 		bool RunAndCapture(const std::string& command, std::string& output);
 
 	};	//namespace Utilities
 
-	int Main(int argumentCount, char* argumentValues[]);
+	/// @details The program. Returns the exit code for main.
+	int Main(const int argumentCount, char* argumentValues[]);
 };	//namespace TodoApp
 
 //--------------------------------------------------------------------------------------------------------------------//
@@ -85,26 +115,26 @@ bool TodoApp::Utilities::WriteLines(const std::string& filePath, const std::vect
 
 bool TodoApp::Utilities::RunAndCapture(const std::string& command, std::string& output)
 {
-	FILE* pipe = popen(command.c_str(), "r");
+	FILE* const pipe = OpenPipe(command);
 	if (nullptr == pipe)
 	{
 		return false;
 	}
 
-	char buffer[256];
+	char buffer[256] = {};
 	while (nullptr != fgets(buffer, sizeof buffer, pipe))
 	{
 		output += buffer;
 	}
 
-	return (0 == pclose(pipe));
+	return (0 == ClosePipe(pipe));
 }
 
 //--------------------------------------------------------------------------------------------------------------------//
 //--------------------------------------------------------------------------------------------------------------------//
 //--------------------------------------------------------------------------------------------------------------------//
 
-int TodoApp::Main(int argumentCount, char* argumentValues[])
+int TodoApp::Main(const int argumentCount, char* argumentValues[])
 {
 	if (argumentCount < 3)
 	{
@@ -125,12 +155,12 @@ int TodoApp::Main(int argumentCount, char* argumentValues[])
 
 	size_t todoLine = todos.size();
 	std::string text;
-	for (size_t index = 0; index < todos.size(); ++index)
+	for (size_t todoIndex = 0; todoIndex < todos.size(); ++todoIndex)
 	{
-		text = Core::TodoText(todos[index]);
+		text = Core::TodoText(todos[todoIndex]);
 		if (false == text.empty())
 		{
-			todoLine = index;
+			todoLine = todoIndex;
 			break;
 		}
 	}
@@ -149,11 +179,11 @@ int TodoApp::Main(int argumentCount, char* argumentValues[])
 	}
 
 	size_t heading = stories.size();
-	for (size_t index = 0; index < stories.size(); ++index)
+	for (size_t storyIndex = 0; storyIndex < stories.size(); ++storyIndex)
 	{
-		if (text == Core::HeadingText(stories[index]))
+		if (text == Core::HeadingText(stories[storyIndex]))
 		{
-			heading = index;
+			heading = storyIndex;
 			break;
 		}
 	}
@@ -175,8 +205,9 @@ int TodoApp::Main(int argumentCount, char* argumentValues[])
 	const std::string kBodyPath = "todo-body.tmp";
 	std::ofstream(kBodyPath) << body << "\n";
 
+	const std::string ghCommand = "gh issue create --title " + Core::Quote(text) + " --body-file " + kBodyPath;
 	std::string ghOutput;
-	const bool ghSucceeded = Utilities::RunAndCapture("gh issue create --title " + Core::Quote(text) + " --body-file " + kBodyPath, ghOutput);
+	const bool ghSucceeded = Utilities::RunAndCapture(ghCommand, ghOutput);
 	std::remove(kBodyPath.c_str());
 	if (false == ghSucceeded)
 	{
@@ -205,7 +236,7 @@ int TodoApp::Main(int argumentCount, char* argumentValues[])
 
 //--------------------------------------------------------------------------------------------------------------------//
 
-int main(int argumentCount, char* argumentValues[])
+int main(const int argumentCount, char* argumentValues[])
 {
 	return TodoApp::Main(argumentCount, argumentValues);
 }

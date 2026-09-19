@@ -54,17 +54,17 @@ std::string TodoApp::Core::HeadingText(const std::string& line)
 
 //--------------------------------------------------------------------------------------------------------------------//
 
-std::string TodoApp::Core::StoryBody(const std::vector<std::string>& lines, size_t heading)
+std::string TodoApp::Core::StoryBody(const std::vector<std::string>& lines, const size_t heading)
 {
 	std::string body;
-	for (size_t index = heading + 1; index < lines.size(); ++index)
+	for (size_t lineIndex = heading + 1; lineIndex < lines.size(); ++lineIndex)
 	{
-		if (0 == lines[index].rfind("## ", 0))
+		if (0 == lines[lineIndex].rfind("## ", 0))
 		{
 			break;
 		}
 
-		body += lines[index];
+		body += lines[lineIndex];
 		body += "\n";
 	}
 

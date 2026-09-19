@@ -15,6 +15,8 @@ namespace TodoApp
 	namespace Core
 	{
 
+		/// @details The text without the spaces, tabs, and line ends at both ends.
+		/// @details The text without the spaces, tabs, and line ends at both ends.
 		std::string Trim(const std::string& text);
 
 		/// @details The todo text is the identity of a todo. An unchecked todo starts with "[]".
@@ -26,7 +28,7 @@ namespace TodoApp
 		std::string HeadingText(const std::string& line);
 
 		/// @details The lines under a heading, up to the next heading.
-		std::string StoryBody(const std::vector<std::string>& lines, size_t heading);
+		std::string StoryBody(const std::vector<std::string>& lines, const size_t heading);
 
 		/// @details One shell argument, in double quotes.
 		std::string Quote(const std::string& text);
